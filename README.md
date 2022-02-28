@@ -37,6 +37,7 @@ Also sends a __*sms*__ to the customer about loan application result.
 - [TODO](#todo)
 - [Contributing](#contributing)
 - [License](#license)
+- [Contact](#contact)
 
 ## Tech Stack
 
@@ -122,7 +123,10 @@ cd innova-patika-graduation-project-ahmetakan
 ```bash
 .\WindowsInitiatorForDocker.bat
 ```
-**4. Run**
+**4. Run**  
+````diff
+- Run below command 2 times, at first it errors about Mysql Host(%), second time it runs successfully :-(  
+````
 ```bash
 docker-compose up
 ```
@@ -146,7 +150,10 @@ chmod +x LinuxInitiatorForDocker.sh
 ```bash
 ./LinuxInitiatorForDocker.sh
 ```
-**5. Run**
+**5. Run**   
+````diff
+- Run below command 2 times, at first it errors about Mysql Host(%), second time it runs successfully :-(  
+````
 ```bash
 sudo docker-compose up
 ```
@@ -251,3 +258,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## License
 Distributed under the MIT License. See [LICENSE](https://github.com/AkanAhmet/innova-patika-graduation-project-ahmetakan/blob/main/LICENSE) for more information.  
+
+## Contact
+You may want get contact to me for any errors or questions at ahmet26es1@gmail.com.
