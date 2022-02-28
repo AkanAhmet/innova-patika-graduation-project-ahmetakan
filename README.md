@@ -154,8 +154,11 @@ sudo docker-compose up
   The main requirement for the project was that the customer would be able to apply for a loan (optionally through UI) with their name,
 surname, identification number, salary and phone. Then the eligibility for the consumer would be calculated server-side, and the result would be
 shown to the consumer and then persisted to MongoDB for later queries. Along with that, an SMS notification would be sent to the customer. 
+
   Project consists of **four** microservices:  Customer Service, SMS Service, Loan Application Service, Credit Score Service. They are discovered by Eureka Service Registry and
 the incoming requests are routed by Spring Cloud Gateway to the corresponding services. Used RestTemplate to communicate with other services. Used Log4j2 to logging system.
+After running project you will able to see frontend page on: <a href="http://localhost:8767" target="_blank"> http://localhost:8767</a> All services must be visible at <a href="http://localhost:8761" target="_blank"> http://localhost:8761</a>
+
 
 ### Customer Service
 
@@ -189,6 +192,7 @@ to the MongoDB for later queries. It simply takes customer infos and returns a r
 |    `/api/loan-applications` | POST | none  |  Post a new loan application. Request a body which contains customer infos, communicates with credit score service and takes credit score. Afterall evaluates customer loan application status and loan limit.
 |   `http://localhost:8765/swagger-ui/index.html` | GET | none | Swagger documentation page.
 
+
 ### Credit Score Service
 
   This is a service which <b>fictionally</b> holds the customers credit scores. 
@@ -200,15 +204,13 @@ In our situation, it just calculates the credit score according to a simple algo
 - 6 -> 400
 - 8 -> 900
 
-
-
 **Endpoints**
 
 | Endpoint | Method |  Params | Description                                                                                                                                                   |
 | -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------      |
 | `/api/credit-score` | GET | id | Get the credit score by the given id number;
 | `/api/credit-score` | POST | id | Credit score calculating and initializing shortly after customer created automatically. 
-|`/swagger-ui.html` | GET | none | Swagger documentation page.|
+|`http://localhost:8764/swagger-ui/index.html` | GET | none | Swagger documentation page.|
 
 
 ### SMS Service
@@ -226,16 +228,15 @@ In our situation, it just calculates the credit score according to a simple algo
 ### Frontend
 
   It is made with Spring and Thymeleaf couple. Has a very simple design which consists of ten pages, four of them for handling errors. 
-Can be accessed on ``localhost:8767``. 
+Can be accessed on ``http://localhost:8767``. 
 
 
 ## TODO
-- Feign Client
-- Kubernetes
-- Zipkin
-- Spring Security
-- Spring Cloud Hystrix
-- Spring Cloud Config
+- [Feign Client](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html)
+- [Kubernetes](https://kubernetes.io/)
+- [Zipkin](https://spring.io/projects/spring-cloud-sleuth)
+- [Spring Cloud Hystrix](https://cloud.spring.io/spring-cloud-netflix/multi/multi__circuit_breaker_hystrix_clients.html)
+- [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/reference/html/)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.  
