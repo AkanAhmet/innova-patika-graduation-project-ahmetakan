@@ -5,7 +5,7 @@
 returns the __*loan application result*__ according to the __*customer info*__ and __*credit score*__ of the customer.
 Also sends a __*sms*__ to the customer about loan application result.
 
-![My image](https://github.com/AkanAhmet/innova-patika-graduation-project-ahmetakan/blob/main/ProjectImages/new-customer.jpg)
+![new-customer.png](https://github.com/AkanAhmet/innova-patika-graduation-project-ahmetakan/blob/main/ProjectImages/new-customer.png)
 
 ## Details
 
