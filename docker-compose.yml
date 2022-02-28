@@ -1,0 +1,134 @@
+version: '3'
+
+services:
+  discovery-service:
+    stdin_open: true
+    tty: true
+    container_name: discovery-service
+    build:
+         context: .
+         dockerfile: discovery-service/Dockerfile    
+    networks:
+      - ahmet-network
+    ports:
+      - "8761:8761"
+    command: --spring.profiles.active=prod  
+
+  gateway-service:
+    stdin_open: true
+    tty: true
+    container_name: gateway-service
+    build:
+         context: .
+         dockerfile: gateway-service/Dockerfile
+    networks:
+      - ahmet-network         
+    ports:
+      - "8762:8762"
+    depends_on:
+      - discovery-service    
+    command: --spring.profiles.active=prod       
+
+  customer-service:
+    stdin_open: true
+    tty: true
+    container_name: customer-service
+    build:
+         context: .
+         dockerfile: customer-service/Dockerfile
+    networks:
+      - ahmet-network         
+    ports:
+      - "8763:8763"
+    command: --spring.profiles.active=prod       
+    depends_on:
+      - mysqldb
+      - gateway-service      
+  mysqldb:
+    stdin_open: true
+    tty: true
+    image: mysql
+    restart: always
+    networks:
+      - ahmet-network    
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root 
+      - MYSQL_DATABASE=customer_service
+      - MYSQL_ROOT_HOST=%
+
+  credit-score-service:
+    stdin_open: true
+    tty: true
+    container_name: credit-score-service
+    build:
+         context: .
+         dockerfile: credit-score-service/Dockerfile
+    networks:
+      - ahmet-network         
+    ports:
+      - "8764:8764"
+    command: --spring.profiles.active=prod       
+    depends_on:
+      - mongodb
+      - customer-service       
+  mongodb:
+    stdin_open: true
+    tty: true
+    image: mongo
+    networks:
+      - ahmet-network    
+    ports:
+      - "27018:27017"      
+
+  loan-application-service:
+    stdin_open: true
+    tty: true
+    container_name: loan-application-service
+    build:
+         context: .
+         dockerfile: loan-application-service/Dockerfile
+    networks:
+      - ahmet-network         
+    ports:
+      - "8765:8765"
+    command: --spring.profiles.active=prod       
+    depends_on:
+      - mongodb 
+      - credit-score-service            
+
+  sms-service:
+    stdin_open: true
+    tty: true  
+    container_name: sms-service
+    build:
+         context: .
+         dockerfile: sms-service/Dockerfile
+    networks:
+      - ahmet-network         
+    ports:
+      - "8766:8766"     
+    command: --spring.profiles.active=prod 
+    depends_on:
+      - loan-application-service           
+
+  frontend:
+    stdin_open: true
+    tty: true  
+    container_name: frontend
+    build:
+         context: .
+         dockerfile: frontend/Dockerfile
+    networks:
+      - ahmet-network         
+    ports:
+      - "8767:8767"  
+    command: --spring.profiles.active=prod   
+    depends_on:
+      - sms-service                                     
+    
+
+networks:
+  ahmet-network:
+    driver: bridge

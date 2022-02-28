@@ -1,0 +1,44 @@
+server:
+  port : 8762
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+
+spring:
+  application:
+    name: gateway-service
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        -   id: customer-service
+            uri: lb://CUSTOMER-SERVICE
+            predicates:
+              - Path=/**
+        -   id: credit-score-service
+            uri: lb://CREDIT-SCORE-SERVICE
+            predicates:
+              - Path=/**
+        -   id: loan-application-service
+            uri: lb://LOAN-APPLICATION-SERVICE
+            predicates:
+              - Path=/**
+        -   id: sms-service
+            uri: lb://SMS-SERVICE
+            predicates:
+              - Path=/**
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include=*:
+

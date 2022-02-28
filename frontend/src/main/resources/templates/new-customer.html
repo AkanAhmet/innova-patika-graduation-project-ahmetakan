@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create New Customer</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png"  href="/static/favicon.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+</head>
+<body data-new-gr-c-s-check-loaded="14.1029.0" data-gr-ext-installed="" style="background: linear-gradient(to right, #00f260, #0575e6);" >
+
+<nav class="navbar navbar-expand-sm   navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="/application-inquiry">Loan Application Inquiry </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/new-customer">Become a Customer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/identification-number-inquiry">My Account</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://akanahmet.github.io" target="_blank">Suprise</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+
+
+
+<div class="container-fluid mt-5">
+  <div class="row">
+
+      <!--Form Start-->
+      <div class="container" style="width: 700px; margin-right: 600px">
+        <h2 style="text-align: center">Customer Info</h2>
+        <form method="post" th:action="@{/customer}" th:object="${customerDto}">
+          <div class="d-flex flex-row">
+            <div class="mb-3 flex-fill">
+              <label for="firstName" class="form-label">Name</label>
+              <input id="firstName" type="text" class="form-control"  th:field="*{firstName}" title="Check Name please, min=2 max=30 characters" maxlength="30" minlength="2" pattern="^(?![\s.]+$)[a-zA-ZÖÜİĞŞÇöüığçş\s.]*$" required>
+            </div>
+            <div class="mb-3 flex-fill">
+              <label for="lastName" class="form-label">Surname</label>
+              <input type="text" class="form-control" id="lastName"  th:field="*{lastName}" title="Check Surname please, min=2 max=30 characters" maxlength="30" minlength="2" pattern="^(?![\s.]+$)[a-zA-ZÖÜİĞŞÇöüığçş\s.]*$" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="identificationNumber">National ID</label>
+            <input type="tel" class="form-control" id="identificationNumber"  th:field="*{identificationNumber}"  title="National ID  must be 11 digits and even number, shouldn't start with 0"  pattern="^[1-9]{1}[0-9]{9}[02468]{1}$" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="salary">Salary</label>
+            <input type="tel" class="form-control" id="salary"  th:field="*{salary}" pattern="^\d{1,8}$" title="Salary can't be negative, only digits allowed max length= 8  No spaces" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="phoneNumber">Phone Number</label>
+            <input type="tel" class="form-control" id="phoneNumber"  th:field="*{phoneNumber}" title="Phone number must be 10 digits, Start with 5, No spaces" pattern="^\d{10}$" required>
+          </div>
+
+          <button type="submit" class="btn btn-success">Submit</button>
+          <button type="reset" class="btn btn-danger">Clear</button>
+        </form>
+      </div>
+      <!--Form End-->
+
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/jquery-3.2.1.min.js "th:src ="@{/js/jquery-3.2.1.min.js} "> </script>
+
+<!-- Icons -->
+
+</body>
+
+</html>
