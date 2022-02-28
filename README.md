@@ -5,6 +5,8 @@
 returns the __*loan application result*__ according to the __*customer info*__ and __*credit score*__ of the customer.
 Also sends a __*sms*__ to the customer about loan application result.
 
+![My image](https://github.com/AkanAhmet/innova-patika-graduation-project-ahmetakan/blob/main/ProjectImages/new-customer.jpg)
+
 ## Details
 
 * A system that customers can *signup*, *update* infos and *delete* **account**.
@@ -157,7 +159,7 @@ shown to the consumer and then persisted to MongoDB for later queries. Along wit
 
   Project consists of **four** microservices:  Customer Service, SMS Service, Loan Application Service, Credit Score Service. They are discovered by Eureka Service Registry and
 the incoming requests are routed by Spring Cloud Gateway to the corresponding services. Used RestTemplate to communicate with other services. Used Log4j2 to logging system.
-After running project you will able to see frontend page on: <a href="http://localhost:8767" target="_blank"> http://localhost:8767</a> All services must be visible at <a href="http://localhost:8761" target="_blank"> http://localhost:8761</a>
+You can view Project images on ProjectImages folder. After running project you will able to see frontend page on: <a href="http://localhost:8767" target="_blank"> http://localhost:8767</a> All services must be visible at <a href="http://localhost:8761" target="_blank"> http://localhost:8761</a>
 
 
 ### Customer Service
@@ -174,23 +176,6 @@ This service saves customer related data to MySQLDb, it has a customer_service d
 |    `/api/customers` | DELETE | id  |       Delete customer by the given ID number. 
 |    `/api/customers` | PUT | id  |       Update customer infos . Request a body which contains `firstName`, `lastName`, `identificationNumber`, `salary` and the `phoneNumber` 
 |   `http://localhost:8763/swagger-ui/index.html` | GET | none | Swagger documentation page.
-
-
-### Loan Application Service
-
-  The main job of the service is to process the loan application request, send eligibility notices and log the applications 
-to the MongoDB for later queries. It simply takes customer infos and returns a result message which contains loan application status and loan limit. How it decides eligibility and credit limit? 
-  Well, if the credit score of the customer which is acquired from **Credit Score Service** is lower than 500, the consumer is not eligible. If it is higher, and the monthly income of the customer is less then 5000, then the customer is eligible for 10000, else if the monthly income is higher than 5000 the limit raises to 20000 . If the score is higher then 1000, the loan limit is calculated as follows: limit = income*4. 
-  
-  Loan application Service sends the result to the SMS Service to notify consumer on phone. Some unit tests are available under Test package for this service.
-
-**Endpoints**
-
-| Endpoint | Method |  Params | Description                                                                                                                                                           |
-| -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    `/api/loan-applications` | GET | id  | Get the customer loan application list by the given ID number.                                                     |
-|    `/api/loan-applications` | POST | none  |  Post a new loan application. Request a body which contains customer infos, communicates with credit score service and takes credit score. Afterall evaluates customer loan application status and loan limit.
-|   `http://localhost:8765/swagger-ui/index.html` | GET | none | Swagger documentation page.
 
 
 ### Credit Score Service
@@ -211,6 +196,23 @@ In our situation, it just calculates the credit score according to a simple algo
 | `/api/credit-score` | GET | id | Get the credit score by the given id number;
 | `/api/credit-score` | POST | id | Credit score calculating and initializing shortly after customer created automatically. 
 |`http://localhost:8764/swagger-ui/index.html` | GET | none | Swagger documentation page.|
+
+
+### Loan Application Service
+
+  The main job of the service is to process the loan application request, send eligibility notices and log the applications 
+to the MongoDB for later queries. It simply takes customer infos and returns a result message which contains loan application status and loan limit. How it decides eligibility and credit limit? 
+  Well, if the credit score of the customer which is acquired from **Credit Score Service** is lower than 500, the consumer is not eligible. If it is higher, and the monthly income of the customer is less then 5000, then the customer is eligible for 10000, else if the monthly income is higher than 5000 the limit raises to 20000 . If the score is higher then 1000, the loan limit is calculated as follows: limit = income*4. 
+  
+  Loan application Service sends the result to the SMS Service to notify consumer on phone. Some unit tests are available under Test package for this service.
+
+**Endpoints**
+
+| Endpoint | Method |  Params | Description                                                                                                                                                           |
+| -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    `/api/loan-applications` | GET | id  | Get the customer loan application list by the given ID number.                                                     |
+|    `/api/loan-applications` | POST | none  |  Post a new loan application. Request a body which contains customer infos, communicates with credit score service and takes credit score. Afterall evaluates customer loan application status and loan limit.
+|   `http://localhost:8765/swagger-ui/index.html` | GET | none | Swagger documentation page.
 
 
 ### SMS Service
