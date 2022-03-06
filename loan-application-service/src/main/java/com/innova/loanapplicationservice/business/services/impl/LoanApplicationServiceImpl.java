@@ -33,7 +33,7 @@ import java.util.Map;
 public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     @Value("${sms.service.uri}")
-    private String SMS_SERVİCE_URI; //= "http://localhost:8766/api/sms-service/";
+    private String SMS_SERVICE_URI; //= "http://localhost:8766/api/sms-service/";
 
 
     @Value("${credit.score.service.uri}")
@@ -64,7 +64,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
             log.info("Loan Application ServiceImpl - findAllByIdentificationNumber method succeed");
             return listDto;
         } catch (Exception exception) {
-            log.error("Loan Application ServiceImpl - findAllByIdentificationNumber method failed");
+            log.error("Loan Application ServiceImpl - findAllByIdentificationNumber method failed "+exception.getMessage());
         }
         return null;
     }
@@ -103,7 +103,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
                     .loanLimit(evaluatedResultWithDatedTo.getLoanLimit())
                     .loanApplicationStatus(evaluatedResultWithDatedTo.getLoanApplicationStatus())
                     .build();
-            Boolean smsStatus = restTemplate.postForObject(SMS_SERVİCE_URI, smsDto, Boolean.class);
+            Boolean smsStatus = restTemplate.postForObject(SMS_SERVICE_URI, smsDto, Boolean.class);
 
             /** BAD PRACTISE, we have to know loan application date to send sms. So we saved entity before,
              * now we sent sms ent knowing sms status, we have to update last entity. */

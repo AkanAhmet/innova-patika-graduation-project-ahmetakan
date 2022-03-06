@@ -42,7 +42,7 @@ public class CustomerController {
 
     // SAVE NEW CUSTOMER
     @PostMapping("/customer")
-    public String saveConsumer(@Valid CustomerDto customerDto) {
+    public String saveConsumer(@Valid CustomerDto customerDto,Model model) {
         ResponseEntity<CustomerDto> responseEntity;
 
         try {
@@ -57,13 +57,15 @@ public class CustomerController {
                         return "error/something-went-wrong";
 
         }
+        model.addAttribute("createDone", true);
         return "identification-number-inquiry";
     }
 
     // UPDATE CUSTOMER
     @PostMapping("/customer/update")
     public String updateCustomer(@Valid CustomerDto customerDto,
-                                 @RequestParam long identificationNumber
+                                 @RequestParam long identificationNumber,
+                                 Model model
     ) {
 
         customerDto.setIdentificationNumber(identificationNumber);
@@ -74,16 +76,17 @@ public class CustomerController {
         catch(HttpClientErrorException httpResponse) {
 
             if(httpResponse.getStatusCode().series().CLIENT_ERROR == HttpStatus.Series.CLIENT_ERROR)
-                return "no-customer-found";
+                return "error/no-customer-found";
             else if(httpResponse.getStatusCode().series().SERVER_ERROR == HttpStatus.Series.SERVER_ERROR)
                 return "error/something-went-wrong";
         }
+        model.addAttribute("updateDone", true);
         return "identification-number-inquiry";
     }
 
     // DELETE CUSTOMER
     @GetMapping("/customer/delete")
-    public String deleteConsumer(@RequestParam long identificationNumber) {
+    public String deleteConsumer(@RequestParam long identificationNumber,Model model) {
 
         try {
             customerService.delete(identificationNumber);
@@ -91,12 +94,13 @@ public class CustomerController {
         catch(HttpClientErrorException httpResponse) {
 
             if(httpResponse.getStatusCode().series().CLIENT_ERROR == HttpStatus.Series.CLIENT_ERROR)
-                return "no-customer-found";
+                return "error/no-customer-found";
             else if(httpResponse.getStatusCode().series().SERVER_ERROR == HttpStatus.Series.SERVER_ERROR)
                 return "error/something-went-wrong";
 
         }
-        return "application-inquiry";
+        model.addAttribute("deleteDone", true);
+        return "identification-number-inquiry";
     }
 
     // TAKE PARAMS FOR UPDATE

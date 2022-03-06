@@ -5,6 +5,7 @@ import com.innova.creditscoreservice.business.services.CreditScoreService;
 import com.innova.creditscoreservice.data.entity.CreditScoreEntity;
 import com.innova.creditscoreservice.data.repository.CreditScoreRepository;
 import com.innova.creditscoreservice.exception.CreditScoreNotExitsException;
+import com.innova.creditscoreservice.util.CreditScoreGeneratorFromId;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,10 @@ public class CreditScoreServiceImpl implements CreditScoreService {
         if (alreadyExitsControl) {
             return creditScoreDto;
         }
+        // Generate credit score of customer from util
+        CreditScoreGeneratorFromId creditScoreGeneratorFromId = new CreditScoreGeneratorFromId();
+
+        creditScoreDto.setCreditScore(creditScoreGeneratorFromId.generateNewCreditScore(creditScoreDto.getIdentificationNumber()));
         CreditScoreEntity creditScoreEntity = DtoToEntity(creditScoreDto);
         creditScoreRepository.save(creditScoreEntity);
         return creditScoreDto;

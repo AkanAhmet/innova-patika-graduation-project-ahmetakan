@@ -23,18 +23,13 @@ public class CreditScoreController {
     @Autowired
     private CreditScoreService creditScoreService;
 
-    CreditScoreGeneratorFromId creditScoreGeneratorFromId;
-
     //SAVE Credit Score of Customer
     //http://localhost:8764/api/credit-score/12345678912
     @PostMapping("/{identificationNumber}")
     public ResponseEntity<String> createCreditScore(@PathVariable Long identificationNumber) {
 
-        creditScoreGeneratorFromId = new CreditScoreGeneratorFromId();
-        int creditScoreOfCustomer = creditScoreGeneratorFromId.generateNewCreditScore(identificationNumber);
         CreditScoreDto creditScoreDto =
                 CreditScoreDto.builder()
-                        .creditScore(creditScoreOfCustomer)
                         .identificationNumber(identificationNumber)
                         .build();
         try {
@@ -42,7 +37,7 @@ public class CreditScoreController {
             log.info("Credit Score created successfully from createCreditScore-Controller");
 
         } catch (Exception exception) {
-            log.error("Credit Score creating faied from createCreditScore-Controller");
+            log.error("Credit Score creating failed from createCreditScore-Controller"+exception.getMessage());
             return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok("Credit Score of Customer with id " + identificationNumber + "saved successfully.");

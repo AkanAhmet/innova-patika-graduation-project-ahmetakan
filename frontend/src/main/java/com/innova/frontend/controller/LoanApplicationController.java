@@ -55,7 +55,6 @@ public class LoanApplicationController {
             model.addAttribute("loanApplicationDtos", loanApplicationDtos);
         } catch (HttpClientErrorException e) {
             log.error("From frontend, Get request Failed to loan-application-service :\t" + e.getMessage());
-            /** KENDİM EKLEDİM */
             return "error/something-went-wrong";
 
         }
